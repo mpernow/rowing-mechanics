@@ -1,0 +1,16 @@
+[[source]]
+url = "https://pypi.org/simple"
+verify_ssl = true
+name = "pypi"
+
+[packages]
+numpy = "==2.3.5"
+matplotlib = "==3.10.7"
+scipy = "==1.16.2"
+rowing-mechanics = {file = ".", editable = true}
+
+[dev-packages]
+
+[requires]
+python_version = "3.12"
+python_full_version = "3.12.3"

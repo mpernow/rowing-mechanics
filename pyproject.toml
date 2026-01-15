@@ -1,0 +1,7 @@
+[project]
+name = "rowing_mechanics"
+version = "0.1.0"
+
+[tool.setuptools]
+packages = ["rowing_mechanics"]
+package-dir = {"" = "src"}
