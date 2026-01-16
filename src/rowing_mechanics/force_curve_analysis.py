@@ -1,6 +1,6 @@
 import matplotlib.pyplot as plt
 import numpy as np
-from scipy.integrate import cumulative_trapezoid
+from scipy.integrate import cumulative_trapezoid, trapezoid
 
 
 class XYCurve:
@@ -40,8 +40,12 @@ class ForceDistanceCurve(XYCurve):
         distance = (distance - min(distance)) / (max(distance) - min(distance))
         super().__init__(distance, force, "Distance", "Force")
 
+    def normalise(self):
+        total_energy = compute_total_energy(self)
+        self.y /= total_energy
 
-class PhysicsEngine:
+
+class CurveConverter:
     @staticmethod
     def force_to_velocity(force_curve: ForceTimeCurve) -> VelocityTimeCurve:
         velocity = cumulative_trapezoid(force_curve.y, force_curve.x, initial=0)
@@ -56,7 +60,26 @@ class PhysicsEngine:
     def force_time_to_force_distance(
         force_time: ForceTimeCurve, distance_time: DistanceTimeCurve
     ) -> ForceDistanceCurve:
-        return ForceDistanceCurve(distance_time.y, force_time.y)
+        forceDistanceCurve = ForceDistanceCurve(distance_time.y, force_time.y)
+        forceDistanceCurve.normalise()
+        return forceDistanceCurve
+
+    @staticmethod
+    def compute_forward_force(
+        force_curve: ForceDistanceCurve,
+        start_angle_deg: float = -45,
+        end_angle_deg: float = 45,
+    ) -> ForceDistanceCurve:
+        distance = force_curve.x
+        force = force_curve.y
+        angles = (distance / (max(distance) - min(distance))) * (
+            end_angle_deg - start_angle_deg
+        ) + start_angle_deg
+        return ForceDistanceCurve(distance, force * np.cos(angles * np.pi / 180))
+
+
+def compute_total_energy(force_curve: ForceDistanceCurve) -> float:
+    return trapezoid(force_curve.y, x=force_curve.x)
 
 
 def triangle(x: np.ndarray) -> np.ndarray:
@@ -64,19 +87,28 @@ def triangle(x: np.ndarray) -> np.ndarray:
 
 
 if __name__ == "__main__":
-    time = np.linspace(0, 2, 100)
+    time = np.linspace(0, 1, 100)
     force = triangle(time)
     # force = 1 * np.ones(100)
 
     forceCurve = ForceTimeCurve(time, force)
-    velocityCurve = PhysicsEngine.force_to_velocity(forceCurve)
-    distanceCurve = PhysicsEngine.velocity_to_distance(velocityCurve)
-    forceDistanceCurve = PhysicsEngine.force_time_to_force_distance(
+    velocityCurve = CurveConverter.force_to_velocity(forceCurve)
+    distanceCurve = CurveConverter.velocity_to_distance(velocityCurve)
+    forceDistanceCurve = CurveConverter.force_time_to_force_distance(
         forceCurve, distanceCurve
     )
+
+    forwardForceDistanceCurve = CurveConverter.compute_forward_force(
+        forceDistanceCurve, -45, 45
+    )
+
+    total_forward_energy = compute_total_energy(forwardForceDistanceCurve)
 
     fig1 = forceCurve.plot()
     fig2 = velocityCurve.plot()
     fig3 = distanceCurve.plot()
     fig4 = forceDistanceCurve.plot()
+    fig5 = forwardForceDistanceCurve.plot()
     plt.show()
+
+    print(f"Total forward energy is {total_energy}")
