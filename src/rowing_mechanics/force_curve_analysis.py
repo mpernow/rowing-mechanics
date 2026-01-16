@@ -111,4 +111,4 @@ if __name__ == "__main__":
     fig5 = forwardForceDistanceCurve.plot()
     plt.show()
 
-    print(f"Total forward energy is {total_energy}")
+    print(f"Total forward energy is {total_forward_energy}")
