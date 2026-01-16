@@ -15,6 +15,7 @@ class XYCurve:
         ax.plot(self.x, self.y)
         ax.set_xlabel(self.x_label)
         ax.set_ylabel(self.y_label)
+        ax.set_ylim([0, max(self.y) * 1.1])
         return fig
 
 
@@ -80,35 +81,3 @@ class CurveConverter:
 
 def compute_total_energy(force_curve: ForceDistanceCurve) -> float:
     return trapezoid(force_curve.y, x=force_curve.x)
-
-
-def triangle(x: np.ndarray) -> np.ndarray:
-    return np.array([v if v < 0.5 else 1 - v for v in x])
-
-
-if __name__ == "__main__":
-    time = np.linspace(0, 1, 100)
-    force = triangle(time)
-    # force = 1 * np.ones(100)
-
-    forceCurve = ForceTimeCurve(time, force)
-    velocityCurve = CurveConverter.force_to_velocity(forceCurve)
-    distanceCurve = CurveConverter.velocity_to_distance(velocityCurve)
-    forceDistanceCurve = CurveConverter.force_time_to_force_distance(
-        forceCurve, distanceCurve
-    )
-
-    forwardForceDistanceCurve = CurveConverter.compute_forward_force(
-        forceDistanceCurve, -45, 45
-    )
-
-    total_forward_energy = compute_total_energy(forwardForceDistanceCurve)
-
-    fig1 = forceCurve.plot()
-    fig2 = velocityCurve.plot()
-    fig3 = distanceCurve.plot()
-    fig4 = forceDistanceCurve.plot()
-    fig5 = forwardForceDistanceCurve.plot()
-    plt.show()
-
-    print(f"Total forward energy is {total_forward_energy}")
