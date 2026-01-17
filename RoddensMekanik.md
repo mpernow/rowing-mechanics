@@ -41,33 +41,32 @@ $$
 Anta en konstant kraft under hela roddraget, enligt följande graf: ![plot](img/rowing_force_const.png)
 
 Kraften som en funktion av distansen är, även den, konstant. Kraften föröver som en funktion av distansen ges då av följande graf:
-![plot](rowing_force_const_forward.png)
+![plot](img/rowing_force_const_forward.png)
 
 Den totala energin som ges till vattnet i framåtgående riktning, efter normering av kraften, är $W_\text{framåt}= 0.9003$.
 
 ## Triangelformad kraftprofil
 
 Anta en triangelformad kraft under roddraget, enligt följande graf:
-![plot](rowing_force_triangle.png)
+![plot](img/rowing_force_triangle.png)
 
 Kraften som en funktion av distansen ges då av följande graf:
-![plot](rowing_force_distance_triangle.png)
+![plot](img/rowing_force_distance_triangle.png)
 
 Kraften föröver som en funktion av distansen ges då av följande graf:
-![plot](rowing_force_forward_distance.png)
+![plot](img/rowing_force_forward_distance.png)
 
 Den totala energin som ges till vattnet i framåtgående riktning, efter normering av kraften, är $W_\text{framåt}=0.912$. Alltså är detta en något bättre profil än den konstanta.
 
 ## Kvadratisk kraftprofil
 
 Anta en kvadratisk kraft under roddraget, enligt följande graf:
-![plot](rowing_force_quadratic.png)
+![plot](img/rowing_force_quadratic.png)
 
 Kraften som en funktion av distansen ges då av följande graf:
-![plot](rowing_force_distance_quadratic.png)
+![plot](img/rowing_force_distance_quadratic.png)
 
 Kraften föröver som en funktion av distansen ges då av följande graf:
-![plot](rowing_force_forward_quadratic.png)
+![plot](img/rowing_force_forward_quadratic.png)
 
 Den totala energin som ges till vattnet i framåtgående riktning, efter normering av kraften, är $W_\text{framåt}=0.917$. Alltså är detta en något bättre profil än den konstanta och den triagelformade.
-
